@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="row">
+        <div id="description">
+            <p>{{ Page_ways.description }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if Page_ways.enemy_one %}
+            <div id="enemies" style="display: inline-block">
+                <table>
+                    <caption>
+                        <th>Название</th>
+                        <th>Мастерство</th>
+                        <th>Выносливость</th>
+                    </caption>
+                    <tbody>
+                    <tr>
+                        <td>{{ Page_ways.enemy_one.name }}</td>
+                        <td>{{ Page_ways.enemy_one.skill }}</td>
+                        <td>{{ Page_ways.enemy_one.stamina }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ Page_ways.enemy_two.name }}</td>
+                        <td>{{ Page_ways.enemy_two.skill }}</td>
+                        <td>{{ Page_ways.enemy_two.stamina }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="row">
+        {% if Page_ways.game_over %}
+            <div id="game_over">
+                <p>Ты проиграл!</p>
+                <a href="{% url 'labirint:step' 1 %}">Начать сначала</a>
+            </div>
+        {% else %}
+            <div id="ways" class="btn-group-vertical" role="group">
+                {% for way in Ways %}
+                    <a href="{% url 'labirint:step' way.step %}" class="btn btn-success">{{ way.description }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Rules
+{% endblock %}
+
+{% block body %}
+    {% if request.user.is_authenticated %}
+        <h4>Добро пожаловать {{ request.user.username }}</h4>
+    {% else %}
+        GUEST
+    {% endif %}
+
+    <ul>
+        <li>
+            <a href="{% url 'labirint:rules' %}">Правила игры</a>
+        </li>
+        <li>
+            <a href="{% url 'labirint:prologue' %}">Начать игру</a>
+        </li>
+        <li>
+            <a href="/admin">Админка</a>
+        </li>
+    </ul>
+{% endblock %}
