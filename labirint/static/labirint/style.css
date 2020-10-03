@@ -1,0 +1,15 @@
+p {
+    text-indent: 2%;
+}
+
+.paragraph {
+    margin: 20px 0 20px 0;
+}
+
+.paragraph p{
+    margin: 2px;
+}
+
+.paragraph h2 {
+    margin-bottom: 3px;
+}
