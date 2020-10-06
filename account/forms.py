@@ -8,5 +8,4 @@ class UserFrom(ModelForm):
         fields = ['username', 'password']
         widgets = {
             'password': PasswordInput(),
-
         }

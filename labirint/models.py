@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
 
 class Hero(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="Пользователь в системе", default=None)
     name = models.CharField(max_length=20, verbose_name="Имя игрока")
     current_skill = models.IntegerField(verbose_name="Текущее значение мастерства")
     max_skill = models.IntegerField(verbose_name="Максимальное значение мастерства")
@@ -14,6 +16,9 @@ class Hero(models.Model):
     provisions = models.IntegerField(default=10, verbose_name="Количество провизии")
     money = models.IntegerField(default=0, verbose_name="Количество монет")
     stuffs = models.ManyToManyField('Stuff', verbose_name="Рюкзак")
+
+    def get_username(self):
+        return self.User.username
 
     class Meta:
         verbose_name = 'Игрок'

@@ -9,7 +9,9 @@
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{% url 'labirint:index' %}">
                 {{ form|crispy }}
+
                 <button type="submit" class="btn btn-primary btn-block">Войти</button>
+
             </form>
         </div>
     </div>

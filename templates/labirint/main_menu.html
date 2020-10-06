@@ -8,8 +8,6 @@
 {% block body %}
     {% if request.user.is_authenticated %}
         <h4>Добро пожаловать {{ request.user.username }}</h4>
-    {% else %}
-        GUEST
     {% endif %}
 
     <ul>
@@ -19,8 +17,11 @@
         <li>
             <a href="{% url 'labirint:prologue' %}">Начать игру</a>
         </li>
-        <li>
-            <a href="/admin">Админка</a>
-        </li>
+        {% if request.user.is_staff %}
+            <li>
+                <a href="/admin">Админка</a>
+            </li>
+        {% endif %}
+
     </ul>
 {% endblock %}

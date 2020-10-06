@@ -5,3 +5,4 @@ from .models import Hero
 class HeroForm(ModelForm):
     class Meta:
         model = Hero
+        fields = ['name', ]

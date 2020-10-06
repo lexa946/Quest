@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.http import Http404
 
 # Create your views here.
 from django.views.generic import DetailView
@@ -27,3 +27,7 @@ class PageView(DetailView):
         context = super(PageView, self).get_context_data(**kwargs)
         context['Ways'] = Ways.objects.filter(page_anchor=context['Page_ways'].pk)
         return context
+
+
+def create_hero(request):
+    return Http404(request)

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <h2>Личный кабинет</h2>
+    <div>
+        <span>Мои персонажи:</span>
+        <ul>
+            {% if heroes %}
+                {% for hero in heroes %}
+                    <li>{{ hero.name }}</li>
+                {% endfor %}
+            {% else %}
+                <li>у вас нету персонажей</li>
+            {% endif %}
+
+
+        </ul>
+
+        <a href="{% url 'labirint:create_hero' %}">Создать персонажа</a>
+    </div>
+
+
+
+{% endblock %}
