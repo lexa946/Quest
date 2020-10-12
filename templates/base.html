@@ -4,16 +4,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="{% static 'labirint/style.css' %}">
 
 
     <link rel="stylesheet" href="{% static 'labirint/css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'labirint/css/bootstrap-grid.css' %}">
     <link rel="stylesheet" href="{% static 'labirint/css/bootstrap-reboot.css' %}">
+
     <script src="{% static 'labirint/js/jquery.js' %}" ></script>
     <script src="{% static 'labirint/js/popen.js' %}" ></script>
     <script src="{% static 'labirint/js/bootstrap.bundle.js' %}" ></script>
     <script src="{% static 'labirint/js/bootstrap.js' %}" ></script>
+
+    {% block head %}{% endblock %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}Labirint{% endblock %}</title>

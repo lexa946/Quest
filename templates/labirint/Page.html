@@ -1,53 +1,36 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block head %}
+    <link rel="stylesheet" href="{% static 'labirint/css/style.css' %}">
+{% endblock %}
+
 {% block body %}
-    <div class="row">
-        <div id="description">
-            <p>{{ Page_ways.description }}</p>
+    <div class="row mt-3 px-3">
+        <div class="col-sm-6 p-2 gothic-font">
+
+            {{ Page.description }}
         </div>
-    </div>
+        <div class="col-sm">
+            вражины
+        </div>
+        <div class="col-sm">
+            {% if Page.game_over %}
+                <h3 style="color: darkred; font-size: 3em" class="text-center gothic-font">Лабиинт поглотил тебя!</h3>
+                <img src="{{ over_img.image.url }}" alt="Конец игры" class="w-100 h-auto mb-2">
+                <a href="{% url 'labirint:index' %}" class="page-link btn">На главную</a>
 
-    <div class="row">
-        {% if Page_ways.enemy_one %}
-            <div id="enemies" style="display: inline-block">
-                <table>
-                    <caption>
-                        <th>Название</th>
-                        <th>Мастерство</th>
-                        <th>Выносливость</th>
-                    </caption>
-                    <tbody>
-                    <tr>
-                        <td>{{ Page_ways.enemy_one.name }}</td>
-                        <td>{{ Page_ways.enemy_one.skill }}</td>
-                        <td>{{ Page_ways.enemy_one.stamina }}</td>
-                    </tr>
-                    <tr>
-                        <td>{{ Page_ways.enemy_two.name }}</td>
-                        <td>{{ Page_ways.enemy_two.skill }}</td>
-                        <td>{{ Page_ways.enemy_two.stamina }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        {% endif %}
+            {% endif %}
 
-    </div>
-
-    <div class="row">
-        {% if Page_ways.game_over %}
-            <div id="game_over">
-                <p>Ты проиграл!</p>
-                <a href="{% url 'labirint:step' 1 %}">Начать сначала</a>
-            </div>
-        {% else %}
-            <div id="ways" class="btn-group-vertical" role="group">
+            <div class="btn-group-vertical btn-group-lg gothic-font" role="group" aria-label="Basic example">
                 {% for way in Ways %}
-                    <a href="{% url 'labirint:step' way.step %}" class="btn btn-success">{{ way.description }}</a>
+                    <a type="button" href="{% url 'labirint:step' way.step %}" class="btn btn-info">{{ way.description }}</a>
                 {% endfor %}
+
+
+
             </div>
-        {% endif %}
+        </div>
     </div>
 
 

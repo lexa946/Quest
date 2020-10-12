@@ -1,0 +1,9 @@
+@font-face {
+    font-family: Gothic;
+    src: url("../font/gothic.ttf") format('truetype'), local('gothic');
+}
+
+.gothic-font{
+    font-family: Gothic;
+    font-size: larger;
+}
