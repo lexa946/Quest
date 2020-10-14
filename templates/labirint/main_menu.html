@@ -15,7 +15,7 @@
             <a href="{% url 'labirint:rules' %}">Правила игры</a>
         </li>
         <li>
-            <a href="{% url 'labirint:prologue' %}">Начать игру</a>
+            <a href="{% url 'labirint:select_hero' %}">Начать игру</a>
         </li>
         {% if request.user.is_staff %}
             <li>

@@ -7,12 +7,23 @@
 
 {% block body %}
     <div class="row mt-3 px-3">
-        <div class="col-sm-6 p-2 gothic-font">
+        <div class="col-sm-9 p-2">
+            <div class="row gothic-font" style="min-height: 7rem">
+                {{ Page.description }}
+            </div>
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center">
+                    <div>
 
-            {{ Page.description }}
-        </div>
-        <div class="col-sm">
-            вражины
+                                            <h5 class="card-title text-center"> {{ Hero.name }}</h5>
+                                                <img src="{{ Hero.img.image.url }}" alt="{{ Hero.name }}" class="card-img-top h-auto">
+
+                    </div>
+
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+            </div>
         </div>
         <div class="col-sm">
             {% if Page.game_over %}
@@ -24,13 +35,23 @@
 
             <div class="btn-group-vertical btn-group-lg gothic-font" role="group" aria-label="Basic example">
                 {% for way in Ways %}
-                    <a type="button" href="{% url 'labirint:step' way.step %}" class="btn btn-info">{{ way.description }}</a>
+                    <a type="button" href="{% url 'labirint:step' way.step %}"
+                       class="btn btn-info">{{ way.description }}</a>
                 {% endfor %}
-
 
 
             </div>
         </div>
+    </div>
+    <div class="row mt-3 px-3">
+
+        <div class="col"></div>
+        <div class="col"></div>
+
+        {% if Page.enemy_one %}
+
+        {% endif %}
+
     </div>
 
 
