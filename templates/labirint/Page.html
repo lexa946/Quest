@@ -6,53 +6,186 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row mt-3 px-3">
-        <div class="col-sm-9 p-2">
-            <div class="row gothic-font" style="min-height: 7rem">
-                {{ Page.description }}
-            </div>
-            <div class="row mt-3">
-                <div class="col d-flex justify-content-center">
-                    <div>
+    <section>
+        <div class="row mt-3 px-3">
+            <div class="col-sm-9 p-2">
+                <div class="row gothic-font mb-2" style="min-height: 7rem">
+                    <div class="col">
+                        <div class="row">
+                            <div>
+                                <span id="hero_pk" hidden>{{ Hero.pk }}</span>
+                                <h5 id="hero_name" class="text-center"> {{ Hero.name }}</h5>
+                                <img src="{{ Hero.img.image.url }}" alt="{{ Hero.name }}" class="card-img-top h-auto">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table class="border table w-100 " style="font-size: medium; border-radius: 2px;">
+                                <tbody>
+                                <tr>
+                                    <td>Мастерство</td>
+                                    <td id="hero_skill">
+                                        <span>{{ Hero.current_skill }}</span>
+                                        /
+                                        <span>{{ Hero.max_skill }}</span>
+                                    </td>
+                                </tr>
+                                <tr style="color: #005cbf">
+                                    <td>Выносливость</td>
+                                    <td id="hero_stamina">
+                                        <span>{{ Hero.current_stamina }}</span>
+                                        /
+                                        <span>{{ Hero.max_stamina }}</span>
+                                    </td>
+                                </tr>
+                                <tr style="color: #1e7e34">
+                                    <td>Удача</td>
+                                    <td id="hero_luck">
+                                        <span>{{ Hero.current_luck }}</span>
+                                        /
+                                        <span>{{ Hero.max_luck }}</span>
+                                    </td>
+                                </tr>
+                                <tr style="color: chocolate">
+                                    <td>Привалы</td>
+                                    <td id="hero_provisions">{{ Hero.provisions }}</td>
+                                </tr>
+                                <tr style="color: gold">
+                                    <td>Золото</td>
+                                    <td id="hero_money">{{ Hero.money }}</td>
+                                </tr>
 
-                                            <h5 class="card-title text-center"> {{ Hero.name }}</h5>
-                                                <img src="{{ Hero.img.image.url }}" alt="{{ Hero.name }}" class="card-img-top h-auto">
-
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
+                    <div class="col-sm-9">
+                        <div id="description" class="row-cols-1">
+                            {{ Page.description|safe }}
+                        </div>
+                        {% if Page.enemy_one %}
+                            <div class="row-cols-1" id="enemies">
+                                <div class="w-50 d-flex  mt-3">
+                                    <img src="{{ Page.enemy_one.img.image.url }}" alt="{{ Page.enemy_one.name }}"
+                                         class="w-100" style="object-fit: cover">
+                                    <table id="enemy_table" class="table">
+                                        <tr class="d-table-row">
+                                            <th>Имя</th>
+                                            <th>Мастерство</th>
+                                            <th>Выносливость</th>
+                                        </tr>
+                                        <tr class="enemy-row">
+                                            <td>{{ Page.enemy_one.name }}</td>
+                                            <td>{{ Page.enemy_one.skill }}</td>
+                                            <td>{{ Page.enemy_one.stamina }}</td>
+                                        </tr>
+                                        {% if Page.enemy_two %}
+                                            <tr class="enemy-row">
+                                                <td>{{ Page.enemy_two.name }}</td>
+                                                <td>{{ Page.enemy_two.skill }}</td>
+                                                <td>{{ Page.enemy_two.stamina }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row-cols-1 mt-3">
+                                <div class="w-100 d-flex justify-content-around">
+                                    <button id="punch" class="btn btn-danger">Ударить</button>
+                                    <button id="getLuck" class="btn btn-success disabled" disabled>Испытать удачу
+                                    </button>
+                                    <button id="leave" class="btn btn-dark disabled" disabled>Сбежать</button>
+                                </div>
+
+                            </div>
+                            <div class="history-fight row-cols-1 mt-3 p-2 h-25 d-flex justify-content-center w-75"
+                                 style="background-image: url('{% static "labirint/image/свиток.png" %}');">
+                                <div class="content scroll text-center ">
+                                    <h4 class="mt-2">История боя</h4>
+
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
                 </div>
-                <div class="col"></div>
-                <div class="col"></div>
-            </div>
-        </div>
-        <div class="col-sm">
-            {% if Page.game_over %}
-                <h3 style="color: darkred; font-size: 3em" class="text-center gothic-font">Лабиинт поглотил тебя!</h3>
-                <img src="{{ over_img.image.url }}" alt="Конец игры" class="w-100 h-auto mb-2">
-                <a href="{% url 'labirint:index' %}" class="page-link btn">На главную</a>
-
-            {% endif %}
-
-            <div class="btn-group-vertical btn-group-lg gothic-font" role="group" aria-label="Basic example">
-                {% for way in Ways %}
-                    <a type="button" href="{% url 'labirint:step' way.step %}"
-                       class="btn btn-info">{{ way.description }}</a>
-                {% endfor %}
-
 
             </div>
+            <div class="col-sm">
+                {% if Page.game_over %}
+                    <h3 style="color: darkred; font-size: 3em" class="text-center gothic-font">Лабиинт поглотил
+                        тебя!</h3>
+                    <img src="{{ over_img.image.url }}" alt="Конец игры" class="w-100 h-auto mb-2">
+                    <a href="{% url 'labirint:index' %}" class="page-link btn">На главную</a>
+                {% else %}
+                    <div class="d-flex justify-content-center btn-group-vertical btn-group-lg gothic-font row"
+                         role="group"
+                         aria-label="Basic example" id="ways">
+                        {% for way in Ways %}
+                            <a type="button" href="{% url 'labirint:step' way.step %}"
+                               class="btn btn-info">{{ way.description }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-warning w-100 mt-3 " id="provision_btn">Сделать привал
+                        </button>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="w-100 invent">
+                            <button class="btn btn-success btn-sm btn-block" type="button" data-toggle="collapse"
+                                    data-target="#collapseExample" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                Инвентарь
+                            </button>
+
+                            <div class="collapse" id="collapseExample">
+                                <ul class="list-group">
+                                    {% for stuff in Hero.stuffs.all %}
+                                        <li class="list-group-item">{{ stuff }}</li>
+                                    {% endfor %}
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="w-100 buffs">
+                            <button class="btn btn-success btn-sm btn-block" type="button" data-toggle="collapse"
+                                    data-target="#collapseBuffs" aria-expanded="false"
+                                    aria-controls="collapseBuffs">
+                                Эффекты
+                            </button>
+
+                            <div class="collapse" id="collapseBuffs">
+                                <ul class="list-group">
+                                    {% for buffs in Hero.buffs.all %}
+                                        <li class="list-group-item">{{ buffs }}</li>
+                                    {% endfor %}
+
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                {% endif %}
+
+            </div>
         </div>
-    </div>
-    <div class="row mt-3 px-3">
+    </section>
 
-        <div class="col"></div>
-        <div class="col"></div>
+    <script src="{% static 'labirint/js/helper.js' %}"></script>
+    {% if Page.script %}
+        <script src="{{ Page.script.url }}"></script>
 
-        {% if Page.enemy_one %}
+    {% endif %}
 
-        {% endif %}
 
-    </div>
+
+
+
 
 
 {% endblock %}

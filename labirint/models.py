@@ -1,8 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from ckeditor_uploader.fields import RichTextUploadingField
+from django.db.models.signals import pre_save
+from django.dispatch.dispatcher import receiver
 
 # Create your models here.
+
+class Buff(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название")
+
+    class Meta:
+        verbose_name = 'Эффетк'
+        verbose_name_plural = 'Эффекты'
+
+    def __str__(self):
+        return self.name
+
 
 class Hero(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name="Пользователь в системе", default=None)
@@ -18,10 +31,14 @@ class Hero(models.Model):
     max_luck = models.IntegerField(verbose_name="Максимальное значение удачи")
     provisions = models.IntegerField(default=10, verbose_name="Количество провизии")
     money = models.IntegerField(default=0, verbose_name="Количество монет")
-    stuffs = models.ManyToManyField('Stuff', verbose_name="Рюкзак")
+    stuffs = models.ManyToManyField('Stuff', verbose_name="Рюкзак", blank=True)
     is_selected = models.BooleanField(verbose_name="Выбранный?", default=False)
     last_step = models.ForeignKey(to="Page", on_delete=models.DO_NOTHING,
                                   verbose_name="Последний переход", default=1)
+    next_steps = models.ManyToManyField(to="Ways", verbose_name="Следующие шаги",
+                                        default=(1, 2))
+    buffs = models.ManyToManyField(Buff, verbose_name="Эффекты", blank=True)
+
 
     def get_username(self):
         return self.user.username
@@ -77,12 +94,19 @@ class Enemy(models.Model):
 
 
 class Page(models.Model):
-    description = models.TextField(verbose_name="Описание")
-    enemy_one = models.ForeignKey(Enemy, on_delete=models.PROTECT, null=True, verbose_name='Первый враг', default=None,
-                                  blank=True, related_name='enemy_one')
-    enemy_two = models.ForeignKey(Enemy, on_delete=models.PROTECT, null=True, verbose_name='Второй Враг', default=None,
-                                  blank=True, related_name='enemy_two')
+    description = RichTextUploadingField(verbose_name="Описание")
+    enemy_one = models.ForeignKey(Enemy, on_delete=models.PROTECT, null=True, verbose_name="Первый враг", default=None,
+                                  blank=True, related_name="enemy_one")
+    enemy_two = models.ForeignKey(Enemy, on_delete=models.PROTECT, null=True, verbose_name="Второй Враг", default=None,
+                                  blank=True, related_name="enemy_two")
     game_over = models.BooleanField(verbose_name="Конец игры?", default=False)
+    add_stuff = models.ManyToManyField("Stuff", verbose_name="Добавление предметов", blank=True, default=None,
+                                       related_name="add_stuff")
+    remove_stuff = models.ManyToManyField("Stuff", verbose_name="Удаление предметов", blank=True, default=None,
+                                          related_name="remove_stuff")
+    add_buff = models.ManyToManyField("Buff", verbose_name="Добавление эффекта",blank=True, default=None,
+                                      related_name="add_buff")
+    script = models.FileField(verbose_name="Джава скрипт", upload_to="js/", blank=True)
 
     class Meta:
         verbose_name = 'Страница'
@@ -93,6 +117,7 @@ class Page(models.Model):
 
     def short_desc(self):
         return self.description[:50] + '...'
+
     short_desc.short_description = 'Описание'
 
 
@@ -120,14 +145,6 @@ class Characteristics(models.Model):
         return self.name
 
 
-class ActionsPage(models.Model):
-    page_anchor = models.ForeignKey(Page, on_delete=models.PROTECT)
-    characteristic = models.ForeignKey(Characteristics, on_delete=models.PROTECT, verbose_name="Характеристика")
-    count = models.IntegerField(verbose_name="Счетчик")
-
-    class Meta:
-        verbose_name = 'Действие'
-        verbose_name_plural = 'Действия'
 
 
 class Stuff(models.Model):

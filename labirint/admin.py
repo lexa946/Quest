@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from .models import Page, Hero, Enemy, Ways, Stuff, ActionsPage, Characteristics, Images, EntityCategory
+from .models import Page, Hero, Enemy, Ways, Stuff, Characteristics, Images, EntityCategory, Buff
 
 
 # Register your models here.
@@ -11,17 +11,13 @@ class WaysInline(admin.StackedInline):
     extra = 1
 
 
-class ActionInline(admin.StackedInline):
-    model = ActionsPage
-    extra = 1
-
 
 class PageAdmin(admin.ModelAdmin):
     list_display = ['id', 'short_desc']
     list_display_links = ['id', 'short_desc']
     list_editable = []
     search_fields = ['id__iexact', ]
-    inlines = [WaysInline, ActionInline]
+    inlines = [WaysInline]
     list_per_page = 5
     save_on_top = True
 
@@ -67,6 +63,8 @@ class StuffAdmin(admin.ModelAdmin):
     list_display_links = ['name']
     ordering = ['name']
 
+class BuffAdmin(admin.ModelAdmin):
+    pass
 
 class CharacteristicAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
@@ -95,3 +93,4 @@ admin.site.register(Stuff, StuffAdmin)
 admin.site.register(Characteristics, CharacteristicAdmin)
 admin.site.register(Images, ImagesAdmin)
 admin.site.register(EntityCategory, EntityCategoryAdmin)
+admin.site.register(Buff, BuffAdmin)

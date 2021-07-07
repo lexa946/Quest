@@ -1,4 +1,5 @@
 import random
+from copy import copy
 
 from django.shortcuts import render, redirect
 from .forms import HeroForm, SelectHeroForm
@@ -6,7 +7,12 @@ from .forms import HeroForm, SelectHeroForm
 # Create your views here.
 from django.views.generic import DetailView
 
-from .models import Page, Ways, Stuff, Images, Hero
+from .models import Page, Ways, Stuff, Images, Hero, Buff
+
+def game_over(request):
+    hero = Hero.objects.get(user=request.user, is_selected=True)
+    hero.delete()
+    return render(request, 'labirint/game_over.html')
 
 
 def index(request):
@@ -26,14 +32,35 @@ class PageView(DetailView):
     template_name = 'labirint/Page.html'
     context_object_name = 'Page'
 
-
     def get(self, request, *args, **kwargs):
+
         if request.user.is_anonymous:
             return redirect('account:login')
 
         try:
-            self.hero = Hero.objects.get(user=request.user, is_selected=True)
+            hero = Hero.objects.get(user=request.user, is_selected=True)
+            self.hero = copy(hero)
+
+            page = Page.objects.get(pk=self.kwargs['pk'])
+
+            if page.game_over:
+                hero.delete()
+            else:
+                if page.add_stuff.exists():
+                    for stuff in page.add_stuff.all():
+                        self.hero.stuffs.add(stuff)
+                if page.remove_stuff.exists():
+                    for stuff in page.remove_stuff.all():
+                        self.hero.stuffs.remove(stuff)
+                if page.add_buff.exists():
+                    for buff in page.add_buff.all():
+                        print(buff)
+                        self.hero.buffs.add(buff)
+
+
+
             return super(PageView, self).get(request, *args, **kwargs)
+
         except Hero.DoesNotExist:
             return redirect('labirint:select_hero')
 
@@ -45,6 +72,9 @@ class PageView(DetailView):
 
         if context['Page'].game_over:
             context['over_img'] = Images.objects.get(pk=28)
+
+        if context['Page'].enemy_one:
+            context['scroll_history'] = Images.objects.get(pk=31)
 
         return context
 
@@ -70,7 +100,6 @@ def create_hero(request):
             hero.save()
             hero.stuffs.add(Stuff.objects.get(pk=form.cleaned_data['potions']))
             hero.save()
-
 
             return redirect('account:personal_area')
     else:
@@ -108,6 +137,8 @@ def select_hero(request):
             hero.save()
             return redirect('labirint:prologue')
     return render(request, 'labirint/select_hero.html', context={
-            'heroes': heroes,
-            'form': SelectHeroForm(heroes),
-        })
+        'heroes': heroes,
+        'form': SelectHeroForm(heroes),
+    })
+
+

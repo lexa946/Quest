@@ -4,12 +4,20 @@
 }
 
 .gothic-font{
-    font-family: Gothic;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     font-size: larger;
+}
+
+table.border.table.w-100 tr td:first-child {
+    padding-right: 0;
 }
 
 .scroll {
     overflow-y: scroll;
+    padding:0 10%;
+}
+
+.prologue-text {
     font-size: 3ex;
     height: 25em;
 }
@@ -21,4 +29,22 @@
 
 .min-h-25 {
     min-height: 25%;
+}
+.invent h6 {
+    color: brown;
+}
+
+.invent .list-group li.list-group-item {
+    font-size: small;
+    color: #ba8b00;
+}
+
+.border-2 {
+    border: 15px;
+}
+
+.history-fight {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
 }

@@ -9,14 +9,27 @@
                 <h4>Мои персонажи:</h4>
                 <ul class="list-group">
                     {% for hero in heroes %}
-                        <a href="{% url 'labirint:hero' hero.pk %}" type="button"
+                        <li class="row">
+                            <div class="col p-0">
+                                <a href="{% url 'labirint:hero' hero.pk %}" type="button"
                            class="list-group-item list-group-item-action list-group-item-info">
                             {{ hero.name }}</a>
+                            </div>
+                            <div class="col p-0">
+                                <a href="{% url "account:delete_hero" hero.pk %}" type="button" class="btn btn-danger p-0">
+                                    <img src="{{ close_btn.image.url }}" alt="Закрыть" class="h-auto" width="30">
+                                </a>
+                            </div>
+
+                        </li>
+
+
                     {% empty %}
                         <h5>У вас нету персонажей</h5>
                     {% endfor %}
                 </ul>
                 <a class="btn btn-success mt-3" href="{% url 'labirint:create_hero' %}">Создать персонажа</a>
+
 
             </div>
             <div class="col-sm"></div>

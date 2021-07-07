@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+    <div class="text-center mt-3">
+        <div class="row">
+            <div class="col-sm">
+                Вы действительно хотите удалить героя {{ hero.name }} ?
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger" value="Удалить" name="delete">
+                    <input type="submit" class="btn btn-primary" value="Отмена" name="cancel">
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

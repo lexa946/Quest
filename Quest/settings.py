@@ -31,7 +31,10 @@ ALLOWED_HOSTS = ['192.168.31.22', '127.0.0.1', '172.20.10.3']
 # Application definition
 
 INSTALLED_APPS = [
+    'django_cleanup',
     'crispy_forms',
+    'ckeditor',
+    'ckeditor_uploader',
     'labirint.apps.LabirintConfig',
     'account.apps.AccountConfig',
     'django.contrib.admin',
@@ -127,3 +130,16 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+
+    'default': {
+
+     'toolbar': 'None'
+
+    },
+
+}
+

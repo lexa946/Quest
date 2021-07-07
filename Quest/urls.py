@@ -21,8 +21,11 @@ from Quest import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     path('account/', include('account.urls')),
-    path('', include('labirint.urls'))
+    path('api/', include('api.urls')),
+    path('', include('labirint.urls')),
+
 
 ]
 
